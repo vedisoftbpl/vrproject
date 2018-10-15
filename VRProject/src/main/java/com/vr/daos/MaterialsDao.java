@@ -30,8 +30,8 @@ public class MaterialsDao {
 			ps.setString(6, materials.getImage());
 			ps.setString(7, materials.getImage3d());
 			ps.setString(8, materials.getStatus());
-			java.sql.Date dt = new java.sql.Date(materials.getLastModified().getTime());
-			ps.setDate(9, dt);
+			java.sql.Time sqlDate = new java.sql.Time(new java.util.Date().getTime());
+			ps.setTime(9, sqlDate);
 			ps.setInt(10, materials.getPriority());
 			ps.executeUpdate();
 			ResultSet generatedKeys = ps.getGeneratedKeys();
@@ -64,8 +64,8 @@ public class MaterialsDao {
 			ps.setString(6, materials.getImage());
 			ps.setString(7, materials.getImage3d());
 			ps.setString(8, materials.getStatus());
-			java.sql.Date dt = new java.sql.Date(materials.getLastModified().getTime());
-			ps.setDate(9, dt);
+			java.sql.Time dt = new java.sql.Time(materials.getLastModified().getTime());
+			ps.setTime(9, dt);
 			ps.setInt(10, materials.getPriority());
 			ps.setInt(11, materials.getmId());
 			ps.executeUpdate();
@@ -117,7 +117,7 @@ public class MaterialsDao {
 				materials.setImage(rs.getString("image"));
 				materials.setImage3d(rs.getString("image3d"));
 				materials.setStatus(rs.getString("status"));
-				java.sql.Date dt = rs.getDate("lastmodified");
+				java.sql.Timestamp dt = rs.getTimestamp("lastmodified");
 				materials.setLastModified(new java.util.Date(dt.getTime()));
 				materials.setPriority(rs.getInt("priority"));
 			}
@@ -149,7 +149,7 @@ public class MaterialsDao {
 				materials.setImage(rs.getString("image"));
 				materials.setImage3d(rs.getString("image3d"));
 				materials.setStatus(rs.getString("status"));
-				java.sql.Date dt = rs.getDate("lastmodified");
+				java.sql.Timestamp dt = rs.getTimestamp("lastmodified");
 				materials.setLastModified(new java.util.Date(dt.getTime()));
 				materials.setPriority(rs.getInt("priority"));
 				listMaterials.add(materials);
@@ -166,7 +166,7 @@ public class MaterialsDao {
 		// java.util.Date dt = DateUtils.convertDate("22-04-2018");
 		// java.util.Date dt1 = DateUtils.convertDate("12-02-1018");
 		// Materials materials = new Materials(88, 9878, 5454, 445, "saas", "saas",
-		// "saas", "saas", dt1, 59 );
+		// "saas", "saas", 59);
 		// System.out.println(MaterialsDao.create(materials));
 
 		// Materials materials = new Materials(1, 88, 9878, 5454, 445, "saas", "saas",

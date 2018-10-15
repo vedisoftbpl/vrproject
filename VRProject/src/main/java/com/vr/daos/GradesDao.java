@@ -2,6 +2,7 @@ package com.vr.daos;
 
 import java.sql.Connection;
 
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -26,8 +27,9 @@ public class GradesDao {
 			ps.setString(2, grades.getgName());
 			ps.setString(3, grades.getgDetails());
 			ps.setString(4, grades.getStatus());
-			java.sql.Date dt = new java.sql.Date(grades.getLastModified().getTime());
-			ps.setDate(5, dt);
+			java.sql.Time lastModified = new java.sql.Time(new java.util.Date().getTime());
+			ps.setTime(5, lastModified);
+
 			ps.executeUpdate();
 			ResultSet generatedKeys = ps.getGeneratedKeys();
 			if (generatedKeys.next()) {
@@ -54,8 +56,8 @@ public class GradesDao {
 			ps.setString(2, grades.getgName());
 			ps.setString(3, grades.getgDetails());
 			ps.setString(4, grades.getStatus());
-			java.sql.Date dt = new java.sql.Date(grades.getLastModified().getTime());
-			ps.setDate(5, dt);
+			java.sql.Time lastModified = new java.sql.Time(new java.util.Date().getTime());
+			ps.setTime(5, lastModified);
 			ps.setInt(6, grades.getgId());
 			ps.executeUpdate();
 		} catch (SQLException sq) {
@@ -102,9 +104,9 @@ public class GradesDao {
 				grades.setgName(rs.getString("g_name"));
 				grades.setgDetails(rs.getString("g_details"));
 				grades.setStatus(rs.getString("status"));
-				java.sql.Date dt = rs.getDate("lastModified");
+				java.sql.Timestamp dt = rs.getTimestamp("lastModified");
 				grades.setLastModified(new java.util.Date(dt.getTime()));
-				
+
 			}
 		} catch (SQLException sq) {
 			System.out.println("Unable to find row." + sq);
@@ -130,7 +132,7 @@ public class GradesDao {
 				grades.setgName(rs.getString("g_name"));
 				grades.setgDetails(rs.getString("g_details"));
 				grades.setStatus(rs.getString("status"));
-				java.sql.Date dt = rs.getDate("lastModified");
+				java.sql.Timestamp dt = rs.getTimestamp("lastModified");
 				grades.setLastModified(new java.util.Date(dt.getTime()));
 				listGrades.add(grades);
 			}
@@ -143,17 +145,17 @@ public class GradesDao {
 	}
 
 	public static void main(String args[]) {
-		 java.util.Date dt = DateUtils.convertDate("22-04-2018");
-//		 java.util.Date dt1 = DateUtils.convertDate("12-02-1018");
-//		 Grades grades = new Grades(88, "dad", "dwqd", "sasqw", dt1);
-//		 System.out.println(GradesDao.create(grades));
+		// java.util.Date dt = DateUtils.convertDate("22-04-2018");
+		// java.util.Date dt1 = DateUtils.convertDate("12-02-1018");
+		// Grades grades = new Grades(88, "dad", "dwqd", "sasqw");
+		// System.out.println(GradesDao.create(grades));
 
-//		 Grades grades = new Grades(1, 88, "dad", "dwqd", "sasqw", dt);
-//		 System.out.println(GradesDao.edit(grades));
+		// Grades grades = new Grades(1, 88, "dad", "dwqd", "sasqw", dt);
+		// System.out.println(GradesDao.edit(grades));
 
-//		 GradesDao.remove(1);
+		// GradesDao.remove(1);
 
-//		 System.out.println(GradesDao.find(2));
-//		System.out.println(GradesDao.findAll());
+		// System.out.println(GradesDao.find(2));
+		// System.out.println(GradesDao.findAll());
 	}
 }

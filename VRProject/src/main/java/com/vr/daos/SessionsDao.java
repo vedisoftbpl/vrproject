@@ -149,6 +149,6 @@ public class SessionsDao {
 		// SessionsDao.remove(1);
 
 		// System.out.println(SessionsDao.find(6));
-		System.out.println(SessionsDao.findAll());
+		// System.out.println(SessionsDao.findAll());
 	}
 }

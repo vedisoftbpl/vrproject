@@ -70,6 +70,26 @@ public class Clients {
 		this.lastModified = lastModified;
 	}
 
+	
+	public Clients(String clientName, String address, String city, String state, String country, String pin,
+			String website, String email, String contactPerson, String designation, String mobile, String contactEmail,
+			String status) {
+		super();
+		this.clientName = clientName;
+		this.address = address;
+		this.city = city;
+		this.state = state;
+		this.country = country;
+		this.pin = pin;
+		this.website = website;
+		this.email = email;
+		this.contactPerson = contactPerson;
+		this.designation = designation;
+		this.mobile = mobile;
+		this.contactEmail = contactEmail;
+		this.status = status;
+	}
+
 	public int getClientId() {
 		return clientId;
 	}

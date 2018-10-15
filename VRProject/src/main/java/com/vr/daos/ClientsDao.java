@@ -35,8 +35,8 @@ public class ClientsDao {
 			ps.setString(11, clients.getMobile());
 			ps.setString(12, clients.getContactEmail());
 			ps.setString(13, clients.getStatus());
-			java.sql.Date dt = new java.sql.Date(clients.getLastModified().getTime());
-			ps.setDate(14, dt);
+			java.sql.Time sqlDate = new java.sql.Time(new java.util.Date().getTime());
+			ps.setTime(14, sqlDate);
 			ps.executeUpdate();
 			ResultSet generatedKeys = ps.getGeneratedKeys();
 			if (generatedKeys.next()) {
@@ -74,8 +74,8 @@ public class ClientsDao {
 			ps.setString(11, clients.getMobile());
 			ps.setString(12, clients.getContactEmail());
 			ps.setString(13, clients.getStatus());
-			java.sql.Date dt = new java.sql.Date(clients.getLastModified().getTime());
-			ps.setDate(14, dt);
+			java.sql.Time dt = new java.sql.Time(clients.getLastModified().getTime());
+			ps.setTime(14, dt);
 			ps.setInt(15, clients.getClientId());
 			id = ps.executeUpdate();
 		}
@@ -139,7 +139,7 @@ public class ClientsDao {
 				clients.setMobile(rs.getString("mobile"));
 				clients.setContactEmail(rs.getString("contact_email"));
 				clients.setStatus(rs.getString("status"));
-				java.sql.Date dt = rs.getDate("lastmodified");
+				java.sql.Timestamp dt = rs.getTimestamp("lastmodified");
 				clients.setLastModified(new java.util.Date(dt.getTime()));
 
 			}
@@ -176,7 +176,7 @@ public class ClientsDao {
 				clients.setMobile(rs.getString("mobile"));
 				clients.setContactEmail(rs.getString("contact_email"));
 				clients.setStatus(rs.getString("status"));
-				java.sql.Date dt = rs.getDate("lastmodified");
+				java.sql.Timestamp dt = rs.getTimestamp("lastmodified");
 				clients.setLastModified(new java.util.Date(dt.getTime()));
 				clientlist.add(clients);
 			}
@@ -190,9 +190,8 @@ public class ClientsDao {
 
 	public static void main(String args[]) {
 		// java.util.Date dt = DateUtils.convertDate("28-05-2018");
-		//
 		// Clients client = new
-		// Clients("xyz","xyz","xyz","xyz","xyz","xyz","xyz","xyz","xyz","xyz","xyz","xyz","xyz",dt);
+		// Clients("xyz","xyz","xyz","xyz","xyz","xyz","xyz","xyz","xyz","xyz","xyz","xyz","xyz");
 		// ClientsDao clients1 = new ClientsDao();
 		// System.out.println(clients1.create(client));
 
@@ -209,8 +208,8 @@ public class ClientsDao {
 		// ClientsDao clients1 = new ClientsDao();
 		// System.out.println(clients1.find(3));
 
-		ClientsDao clients1 = new ClientsDao();
-		System.out.println(clients1.findAll());
+		// ClientsDao clients1 = new ClientsDao();
+		// System.out.println(clients1.findAll());
 
 	}
 

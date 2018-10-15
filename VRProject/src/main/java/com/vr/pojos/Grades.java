@@ -143,4 +143,12 @@ public class Grades {
 		this.lastModified = lastModified;
 	}
 
+	public Grades(int mcId, String gName, String gDetails, String status) {
+		super();
+		this.mcId = mcId;
+		this.gName = gName;
+		this.gDetails = gDetails;
+		this.status = status;
+	}
+
 }

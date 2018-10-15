@@ -28,8 +28,8 @@ public class MaterialCategoriesDao {
 			ps.setString(3, materialCategories.getMcDetails());
 			ps.setString(4, materialCategories.getMcPic());
 			ps.setString(5, materialCategories.getStatus());
-			java.sql.Date dt = new java.sql.Date(materialCategories.getLastModified().getTime());
-			ps.setDate(6, dt);
+			java.sql.Time sqlDate = new java.sql.Time(new java.util.Date().getTime());
+			ps.setTime(6, sqlDate);
 			ps.executeUpdate();
 			ResultSet generatedKeys = ps.getGeneratedKeys();
 			if (generatedKeys.next()) {
@@ -58,8 +58,8 @@ public class MaterialCategoriesDao {
 			ps.setString(3, materialCategories.getMcDetails());
 			ps.setString(4, materialCategories.getMcPic());
 			ps.setString(5, materialCategories.getStatus());
-			java.sql.Date dt = new java.sql.Date(materialCategories.getLastModified().getTime());
-			ps.setDate(6, dt);
+			java.sql.Time dt = new java.sql.Time(materialCategories.getLastModified().getTime());
+			ps.setTime(6, dt);
 			ps.setInt(7, materialCategories.getMcId());
 			ps.executeUpdate();
 		} catch (SQLException sq) {
@@ -107,7 +107,7 @@ public class MaterialCategoriesDao {
 				materialCategories.setMcDetails(rs.getString("mc_details"));
 				materialCategories.setMcPic(rs.getString("mc_pic"));
 				materialCategories.setStatus(rs.getString("status"));
-				java.sql.Date dt = rs.getDate("lastmodified");
+				java.sql.Timestamp dt = rs.getTimestamp("lastmodified");
 				materialCategories.setLastModified(new java.util.Date(dt.getTime()));
 
 			}
@@ -136,7 +136,7 @@ public class MaterialCategoriesDao {
 				materialCategories.setMcDetails(rs.getString("mc_details"));
 				materialCategories.setMcPic(rs.getString("mc_pic"));
 				materialCategories.setStatus(rs.getString("status"));
-				java.sql.Date dt = rs.getDate("lastmodified");
+				java.sql.Timestamp dt = rs.getTimestamp("lastmodified");
 				materialCategories.setLastModified(new java.util.Date(dt.getTime()));
 				listMaterialCategories.add(materialCategories);
 			}
@@ -149,19 +149,20 @@ public class MaterialCategoriesDao {
 	}
 
 	public static void main(String args[]) {
-		java.util.Date dt = DateUtils.convertDate("22-04-2018");
-		java.util.Date dt1 = DateUtils.convertDate("12-02-1018");
+		// java.util.Date dt = DateUtils.convertDate("22-04-2018");
+		// java.util.Date dt1 = DateUtils.convertDate("12-02-1018");
 		// MaterialCategories materialCategories = new MaterialCategories(88, "ADWADA",
-		// "ASDASD", "JYUUYU", "cojisjdis",dt);
+		// "ASDASD", "JYUUYU", "cojisjdis");
 		// System.out.println(MaterialCategoriesDao.create(materialCategories));
 
-		MaterialCategories materialCategories = new MaterialCategories(1, 88, "ADWADA", "ASDASD", "JYUUYU", "cojisjdis",
-				dt);
-		System.out.println(MaterialCategoriesDao.edit(materialCategories));
+		// MaterialCategories materialCategories = new MaterialCategories(1, 88,
+		// "ADWADA", "ASDASD", "JYUUYU", "cojisjdis",
+		// dt);
+		// System.out.println(MaterialCategoriesDao.edit(materialCategories));
 
 		// MaterialCategoriesDao.remove(1);
 
 		// System.out.println(MaterialCategoriesDao.find(6));
-		System.out.println(MaterialCategoriesDao.findAll());
+		// System.out.println(MaterialCategoriesDao.findAll());
 	}
 }

@@ -1,12 +1,16 @@
 package com.vr.daos;
 
 import java.sql.Connection;
-
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.sql.Timestamp;
 
 import com.vr.utilities.ConnectionPool;
 import com.vr.utilities.DateUtils;
@@ -40,10 +44,12 @@ public class SitesDao {
 			ps.setString(14, sites.getMobile());
 			ps.setString(15, sites.getContactEmail());
 			ps.setString(16, sites.getStatus());
-			dt = new java.sql.Date(sites.getLastModified().getTime());
-			ps.setDate(17, dt);
-			dt = new java.sql.Date(sites.getLastSyn().getTime());
-			ps.setDate(18, dt);
+
+			java.sql.Time LastModified = new java.sql.Time(new java.util.Date().getTime());
+			ps.setTime(17, LastModified);
+
+			java.sql.Time lstsyn = new java.sql.Time(new java.util.Date().getTime());
+			ps.setTime(18, lstsyn);
 			ps.executeUpdate();
 			ResultSet generatedKeys = ps.getGeneratedKeys();
 			if (generatedKeys.next()) {
@@ -88,10 +94,10 @@ public class SitesDao {
 			ps.setString(14, sites.getMobile());
 			ps.setString(15, sites.getContactEmail());
 			ps.setString(16, sites.getStatus());
-			dt = new java.sql.Date(sites.getLastModified().getTime());
-			ps.setDate(17, dt);
-			dt = new java.sql.Date(sites.getLastSyn().getTime());
-			ps.setDate(18, dt);
+			java.sql.Time dt1 = new java.sql.Time(sites.getLastModified().getTime());
+			ps.setTime(17, dt1);
+			dt1 = new java.sql.Time(sites.getLastSyn().getTime());
+			ps.setTime(18, dt1);
 			ps.setInt(19, sites.getsId());
 			ps.executeUpdate();
 		} catch (SQLException sq) {
@@ -135,9 +141,9 @@ public class SitesDao {
 			if (rs.next()) {
 				sites.setsId(sId);
 				sites.setInstId(rs.getInt("inst_id"));
-				java.sql.Date dt = rs.getDate("inst_date");
+				Timestamp dt = rs.getTimestamp("inst_date");
 				sites.setInstDate(new java.util.Date(dt.getTime()));
-				dt = rs.getDate("valid_upto");
+				dt = rs.getTimestamp("valid_upto");
 				sites.setValidUpto(new java.util.Date(dt.getTime()));
 				sites.setSiteName(rs.getString("sitename"));
 				sites.setAddress(rs.getString("address"));
@@ -152,10 +158,10 @@ public class SitesDao {
 				sites.setMobile(rs.getString("mobile"));
 				sites.setContactEmail(rs.getString("contact_email"));
 				sites.setStatus(rs.getString("status"));
-				dt = rs.getDate("lastmodified");
-				sites.setLastModified(new java.util.Date(dt.getTime()));
-				dt = rs.getDate("lastSyn");
-				sites.setLastSyn(new java.util.Date(dt.getTime()));
+				java.sql.Timestamp dt1 = rs.getTimestamp("lastmodified");
+				sites.setLastModified(new java.util.Date(dt1.getTime()));
+				dt1 = rs.getTimestamp("lastSyn");
+				sites.setLastSyn(new java.util.Date(dt1.getTime()));
 
 			}
 		} catch (SQLException sq) {
@@ -179,9 +185,9 @@ public class SitesDao {
 				Sites sites = new Sites();
 				sites.setsId(rs.getInt("sid"));
 				sites.setInstId(rs.getInt("inst_id"));
-				java.sql.Date dt = rs.getDate("inst_date");
+				java.sql.Timestamp dt = rs.getTimestamp("inst_date");
 				sites.setInstDate(new java.util.Date(dt.getTime()));
-				dt = rs.getDate("valid_upto");
+				dt = rs.getTimestamp("valid_upto");
 				sites.setValidUpto(new java.util.Date(dt.getTime()));
 				sites.setSiteName(rs.getString("sitename"));
 				sites.setAddress(rs.getString("address"));
@@ -196,10 +202,10 @@ public class SitesDao {
 				sites.setMobile(rs.getString("mobile"));
 				sites.setContactEmail(rs.getString("contact_email"));
 				sites.setStatus(rs.getString("status"));
-				dt = rs.getDate("lastmodified");
-				sites.setLastModified(new java.util.Date(dt.getTime()));
-				dt = rs.getDate("lastSyn");
-				sites.setLastSyn(new java.util.Date(dt.getTime()));
+				java.sql.Timestamp dt1 = rs.getTimestamp("lastmodified");
+				sites.setLastModified(new java.util.Date(dt1.getTime()));
+				dt1 = rs.getTimestamp("lastSyn");
+				sites.setLastSyn(new java.util.Date(dt1.getTime()));
 				listSites.add(sites);
 			}
 		} catch (SQLException sq) {
@@ -213,18 +219,20 @@ public class SitesDao {
 	public static void main(String args[]) {
 		// java.util.Date dt = DateUtils.convertDate("22-04-2018");
 		// java.util.Date dt1 = DateUtils.convertDate("12-02-1018");
-		// Sites sites = new Sites(88, dt, dt1, "asdsd",
-		// "asdsd","asdsd","asdsd","asdsd","asdsd","asdsd","asdsd","asdsd","asdsd","asdsd","asdsd","asdsd",dt,dt1);
+		// Sites sites = new Sites(88, dt, dt1, "asdsd", "asdsd", "asdsd", "asdsd",
+		// "asdsd", "asdsd", "asdsd", "asdsd",
+		// "asdsd", "asdsd", "asdsd", "asdsd", "asdsd");
 		// System.out.println(SitesDao.create(sites));
 
-		// Sites sites = new Sites(2, 88, dt, dt1, "asdsd",
-		// "asdsd","asdsd","asdsd","asdsd","asdsd","asdsd","asdsd","asdsd","asdsd","asdsd","asdsd","asdsd",dt,dt1);
+		// Sites sites = new Sites(9, 88, dt, dt1, "asdsd", "asdsd", "asdsd", "asdsd",
+		// "asdsd", "asdsd", "asdsd", "asdsd",
+		// "asdsd", "asdsd", "asdsd", "asdsd", "asdsd",dt , dt1);
 		// // Sites sites = new Sites(1, 66, dt, dt);
 		// System.out.println(SitesDao.edit(sites));
 
 		// SitesDao.remove(1);
 
-		// System.out.println(SitesDao.find(3));
+		// System.out.println(SitesDao.find(10));
 		// System.out.println(SitesDao.findAll());
 	}
 }
