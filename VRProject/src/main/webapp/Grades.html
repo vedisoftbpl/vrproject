@@ -4,6 +4,8 @@
 <head>
 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <!-- <script src="authInterceptor.js"></script> -->
+
     <link rel="stylesheet" href="style.css">
     <link rel="icon" href="favicon.png" type="image/png" sizes="16x16">
     <meta charset="ISO-8859-1">
@@ -87,7 +89,24 @@
         </table>
     </div>
     <script>
-        var app = angular.module('app', [])
+         angular.module('app', [])
+        'use strict';
+
+       var app = angular.module('app').factory('AuthInterceptor', [function () {
+            return {
+                // Send the Authorization header with each request
+                'request': function (config) {
+                    config.headers = config.headers || {};
+                    var encodedString = btoa("admin:admin");
+                    config.headers.Authorization = 'Basic ' + encodedString;
+                    return config;
+                }
+            };
+        }]);
+
+        app.config(['$httpProvider', function ($httpProvider) {
+            $httpProvider.interceptors.push('AuthInterceptor');
+        }]);
 
         app.controller('ctrl', function ($scope, $http) {
 
@@ -114,9 +133,8 @@
                     $scope.statusc = response.config;
                     $scope.statush = response.headers;
                     $scope.abc = "success";
-                }, function myError(response) {
-                });
-                
+                }, function myError(response) {});
+
             }
 
             $scope.submitGrades = function () {
