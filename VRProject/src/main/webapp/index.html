@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <meta charset="ISO-8859-1">
+    <title>Insert title here</title>
+
+</head>
+
+<body ng-app="app" ng-controller="ctrl">
+    <div>
+        <h1>{{abc}} {{status}} {{statustxt}} {{statusc}} {{statush}} {{application}}
+        </h1>
+        <table border="1" width="100%">
+            <tr>
+                <th>aid</th>
+                <th>a_name</th>
+            </tr>
+            <tr ng-repeat="x in application">
+                <td>{{x.aId}}</td>
+                <td>{{x.aName}}</td>
+            </tr>
+        </table>
+    </div>
+    <script>
+        var app = angular.module('app', [])
+
+        app.controller('ctrl', function ($scope, $http) {
+
+            $scope.try = [{
+                "aId": "2",
+                "aName": "subhanu"
+            }, {
+                "aId": "56",
+                "aName": "appname"
+            }, {
+                "aId": "59",
+                "aName": "shubham"
+            }, {
+                "aId": "60",
+                "aName": "appname"
+            }]
+
+            $http.get("http://localhost:8080/VRProject/webservice/applications").then(function mySuccess(
+                response) {
+                $scope.application = response.data.Application;
+                $scope.status = response.status;
+                $scope.statustxt = response.statusText;
+                $scope.statusc = response.config;
+                $scope.statush = response.headers;
+                $scope.abc = "success";
+            }, function myError(response) {
+
+            });
+        });
+    </script>
+</body>
+
+</html>

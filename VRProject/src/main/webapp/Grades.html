@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="favicon.png" type="image/png" sizes="16x16">
+    <meta charset="ISO-8859-1">
+    <title>Insert title here</title>
+
+</head>
+
+<body>
+    <div ng-app="app" ng-controller="ctrl">
+
+        <form ng-submit="submitGrades() ">
+            <table>
+                <tr>
+                    <th colspan="2 ">Add/Edit ID's</th>
+                </tr>
+                <tr>
+                    <td>Gid</td>
+                    <td>
+                        <input type="text " ng-model="gradesForm.gId " />
+                    </td>
+                </tr>
+                <tr>
+                    <td>maid</td>
+                    <td>
+                        <input type="text " ng-model="gradesForm.mcId " />
+                    </td>
+                </tr>
+                <tr>
+                    <td>gName</td>
+                    <td>
+                        <input type="text " ng-model="gradesForm.gName" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>G gDetails</td>
+                    <td>
+                        <input type="text " ng-model="gradesForm.gDetails " />
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>status</td>
+                    <td>
+                        <input type="text " ng-model="gradesForm.status " />
+                    </td>
+                </tr>
+                <tr>
+                    <td>lastModified</td>
+                    <td>
+                        <input type="text " ng-model="gradesForm.lastModified " />
+                    </td>
+                </tr>
+
+            </table>
+
+            <input type="submit" value="Submit" class="blue-button" />
+        </form>
+
+
+        <table border="1" width="100%">
+            <tr>
+                <th>gid</th>
+                <th>mcid</th>
+                <th>g_name</th>
+                <th>g_details</th>
+                <th>status</th>
+                <th>lastmodified</th>
+            </tr>
+            <tr ng-repeat="x in grades">
+                <td>{{x.gId}}</td>
+                <td>{{x.mcId}}</td>
+                <td>{{x.gName}}</td>
+                <td>{{x.gDetails}}</td>
+                <td>{{x.status}}</td>
+                <td>{{x.lastModified}}</td>
+                <td>
+                    <a ng-click="editGrades(x)" class="blue-button">Edit</a> |
+                    <a ng-click="deleteGrades(x)" class="red-button">Delete</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <script>
+        var app = angular.module('app', [])
+
+        app.controller('ctrl', function ($scope, $http) {
+
+
+
+            $scope.grades = [];
+            $scope.gradesForm = {
+                gId: -1,
+                mcId: "",
+                gName: "",
+                gDetails: "",
+                status: "",
+                lastModified: ""
+            };
+
+            refreshGradesData();
+
+            function refreshGradesData() {
+                $http.get("http://localhost:8080/VRProject/webservice/grades").then(function mySuccess(
+                    response) {
+                    $scope.grades = response.data.grades;
+                    $scope.status = response.status;
+                    $scope.statustxt = response.statusText;
+                    $scope.statusc = response.config;
+                    $scope.statush = response.headers;
+                    $scope.abc = "success";
+                }, function myError(response) {
+                });
+                
+            }
+
+            $scope.submitGrades = function () {
+
+                var method = "";
+                var url = "";
+                if ($scope.gradesForm.gId == -1) {
+                    //Id is absent in form data, it is create new country operation
+                    method = "POST";
+                    url = 'webservice/grades';
+                } else {
+                    //Id is present in form data, it is edit country operation
+                    method = "PUT";
+                    url = 'webservice/grades';
+                }
+                $http({
+                    method: method,
+                    url: url,
+                    data: angular.toJson($scope.gradesForm),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }).then(_success, _error);
+            };
+
+            //HTTP DELETE- delete country by Id
+            $scope.deleteGrades = function (grades) {
+                $http({
+                    method: 'DELETE',
+                    url: 'webservice/grades/' + grades.gId
+                }).then(_success, _error);
+            };
+
+            function _success(response) {
+                refreshGradesData();
+                _clearFormData()
+            }
+
+            function _error(response) {
+                console.log(response.statusText);
+            }
+
+            //Clear the form
+            function _clearFormData() {
+                $scope.gradesForm.gId = -1;
+                $scope.gradesForm.mcId = "";
+                $scope.gradesForm.gName = "";
+                $scope.gradesForm.gDetails = "";
+                $scope.gradesForm.status = "";
+                $scope.gradesForm.lastModified = "";
+
+            };
+
+            $scope.editGrades = function (x) {
+                $scope.gradesForm.gId = x.gId;;
+                $scope.gradesForm.mcId = x.mcId;
+                $scope.gradesForm.gName = x.gName;
+                $scope.gradesForm.gDetails = x.gDetails;
+                $scope.gradesForm.status = x.status;
+                $scope.gradesForm.lastModified = x.lastModified;
+            };
+        });
+    </script>
+
+</body>
+
+</html>

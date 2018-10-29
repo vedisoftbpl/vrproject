@@ -41,16 +41,19 @@ public class GradesService {
 	@POST
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public int create(Grades grades) {
-		return GradesDao.create(grades);
+	public Grades create(Grades grades) {
+		 int id = GradesDao.create(grades);
+		 grades.setgId(id);
+		 return grades;
 	}
 
 	// URI:
 	// /contextPath/servletPath/employees
 	@PUT
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public boolean edit(Grades grades) {
-		return GradesDao.edit(grades);
+	public Grades  edit(Grades grades) {
+		GradesDao.edit(grades);
+		return grades;
 	}
 
 	@DELETE
