@@ -125,7 +125,7 @@
             refreshGradesData();
 
             function refreshGradesData() {
-                $http.get("http://localhost:8080/VRProject/webservice/grades").then(function mySuccess(
+                $http.get("../VRProject/webservice/grades").then(function mySuccess(
                     response) {
                     $scope.grades = response.data.grades;
                     $scope.status = response.status;
